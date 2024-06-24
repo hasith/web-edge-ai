@@ -2,7 +2,12 @@
 
 ![Sample Image](images/sample.png)
 
-A lightweight JavaScript utility library designed for running local language models (LLMs) like Gemma 2B directly on edge devices. This project aims to provide developers with easy-to-use tools for integrating AI capabilities into web applications without relying on external servers, ensuring faster response times and enhanced privacy.
+A lightweight JavaScript utility library designed for running local language models (LLMs) like Gemma 2B directly on edge devices. This project aims to provide developers with easy-to-use tools for integrating AI capabilities into web applications without relying on external servers, ensuring 
+
+- faster response times
+- reduced costs
+- infinite scalability
+- and enhanced privacy.
 
 ## Features
 
@@ -17,7 +22,7 @@ A lightweight JavaScript utility library designed for running local language mod
 - Smart Search: Enhances search functionalities by understanding natural language queries and providing more relevant search results.
 - Grammar and Style Checks: Beyond basic rephrasing, offer advanced grammar and style suggestions to improve the quality of written content.
 - Auto Complete: As you type on an input field, it will automatically surface greyed-out text suggestions completing your sentence or phrase. You can accept the suggestion with a keystroke or ignore it to keep typing naturally.
-- Advanced Validation: The library can validate text inputs in real-time, providing feedback on the fly. For example, it can check if a text input os child safe. If anomalies are detected, it can take actions such as informing a human in the loop for a manual review.
+- Advanced Validation: The library can validate text inputs in real-time, providing feedback on the fly. For example, it can check if a text input is child safe. If anomalies are detected, it can take actions such as informing a human in the loop for a manual review.
 - Rephrase Suggestions: The library can suggest alternative phrasings for a given text input. This can be useful for improving the quality of text inputs with better readability.
 
 ## Image
