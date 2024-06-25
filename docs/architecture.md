@@ -23,7 +23,7 @@ graph LR;
 Handles core functionality such as loading models, running inference in web workers, and managing resources.
 
 ``` javascript
-import { Optimaxer } from 'web-edge-core';
+import { Optimaxer } from 'optimaxer/web-edge-core';
 
 const model = await Optimaxer.loadModel({ model: 'gemma-2b' });
 
@@ -34,7 +34,7 @@ const model = await Optimaxer.loadModel({ model: 'gemma-2b' });
 Provides a command-line interface web applications to execute simple natural language commands. The library can understand the commands like 'open Order 1234', 'show me the latest news', 'create a new task', etc. and execute the corresponding actions by navigating the web routes to load the required pages or perform the necessary operations.
 
 ``` javascript
-import { CommandRunner } from 'web-edge-commands';
+import { CommandRunner } from 'optimaxer/web-edge-commands';
 
 const runner = new CommandRunner();
 runner.configure({
