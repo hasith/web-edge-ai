@@ -22,9 +22,49 @@ graph LR;
 
 Handles core functionality such as loading models, running inference in web workers, and managing resources.
 
+``` javascript
+import { Optimaxer } from 'web-edge-core';
+
+const model = await Optimaxer.loadModel({ model: 'gemma-2b' });
+
+```
+
 ### web-edge-commands
 
 Provides a command-line interface web applications to execute simple natural language commands. The library can understand the commands like 'open Order 1234', 'show me the latest news', 'create a new task', etc. and execute the corresponding actions by navigating the web routes to load the required pages or perform the necessary operations.
+
+``` javascript
+import { CommandRunner } from 'web-edge-commands';
+
+const runner = new CommandRunner();
+runner.configure({
+    [
+        { entity: 'Order', action: 'view', route: (orderId) => `order/${orderId}` },
+        { entity: 'Order', action: 'create', route: 'order/new' },
+        { entity: 'Order', action: 'update', route: (orderId) => `order/${orderId}/edit` },
+        { entity: 'Order', action: 'delete', route: (orderId) => `order/${orderId}/delete` },
+        { entity: 'User', action: 'view', route: (userId) => `user/${userId}` },
+        { entity: 'User', action: 'create', route: 'user/new' },
+        { entity: 'User', action: 'update', route: (userId) => `user/${userId}/edit` },
+        { entity: 'User', action: 'delete', route: (userId) => `user/${userId}/delete` },
+        { entity: 'News', action: 'view', route: 'news' },
+        { entity: 'News', action: 'create', route: 'news/new' },
+        { entity: 'News', action: 'update', route: (newsId) => `news/${newsId}/edit` },
+        { entity: 'News', action: 'delete', route: (newsId) => `news/${newsId}/delete` },
+    ]
+});
+
+
+runner.runCommand('show me Order 1234')
+    .then((result) => {
+        // Handle success
+        console.log(result);
+    })
+    .catch((error) => {
+        // Handle failure
+        console.error(error);
+    });
+```
 
 ### web-edge-translate
 
