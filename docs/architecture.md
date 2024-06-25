@@ -39,29 +39,38 @@ import { CommandRunner } from 'web-edge-commands';
 const runner = new CommandRunner();
 runner.configure({
     [
-        { entity: 'Order', action: 'view', route: (orderId) => `order/${orderId}` },
-        { entity: 'Order', action: 'create', route: 'order/new' },
-        { entity: 'Order', action: 'update', route: (orderId) => `order/${orderId}/edit` },
-        { entity: 'Order', action: 'delete', route: (orderId) => `order/${orderId}/delete` },
-        { entity: 'User', action: 'view', route: (userId) => `user/${userId}` },
-        { entity: 'User', action: 'create', route: 'user/new' },
-        { entity: 'User', action: 'update', route: (userId) => `user/${userId}/edit` },
-        { entity: 'User', action: 'delete', route: (userId) => `user/${userId}/delete` },
-        { entity: 'News', action: 'view', route: 'news' },
-        { entity: 'News', action: 'create', route: 'news/new' },
-        { entity: 'News', action: 'update', route: (newsId) => `news/${newsId}/edit` },
-        { entity: 'News', action: 'delete', route: (newsId) => `news/${newsId}/delete` },
+        { 
+            entity: 'Order',
+            actions: ['view', 'delete', 'edit', 'new'], 
+            routes: {
+                new: 'order/new',
+                lookup: (query, action) => `order/lookup/${query}/next_action/${action}`
+            },
+        },
+        { 
+            entity: 'News',
+            actions: ['view', 'delete', 'new'], 
+            routes: {
+                new: 'news/new',
+                lookup: (query, action) => `news/lookup/${query}/next_action/${action}`
+            },
+        },
+        { 
+            entity: 'Task',
+            actions: ['view', 'delete', 'edit', 'new'], 
+            routes: {
+                new: 'task/new',
+                lookup: (query, action) => `task/lookup/${query}/next_action/${action}`
+            },
+        },
     ]
 });
 
-
 runner.runCommand('show me Order 1234')
     .then((result) => {
-        // Handle success
         console.log(result);
     })
     .catch((error) => {
-        // Handle failure
         console.error(error);
     });
 ```
