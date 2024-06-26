@@ -13,16 +13,13 @@ Describe the technology stack required for this and how this task is to be desig
 ## Sample Model
 
 ### User intent extraction
-
-Output format:
-{
-    "action": "create|update|delete|retrieve|message|cancel",
-    "entity": "user|product|order",
-}
-
+```
 Input: "remove user with id 34343"
 
-Generate the output from the Input. Only output JSON object. Do not include any text outside the JSON object.
+Which entity out of  "user|product|order|news|logs|device|hub" is affected by the input?
+
+Respond with one word.
+```
 
 ### Parameter extraction
 
