@@ -12,7 +12,7 @@ Describe the technology stack required for this and how this task is to be desig
 
 ## Sample Model
 
-### User intent extraction
+### User intent extraction - which entity?
 ```
 Input: "remove user with id 34343"
 
@@ -21,7 +21,7 @@ Which entity out of  "user|product|order|news|logs|device|hub" is affected by th
 Respond with one word.
 ```
 
-### Parameter extraction
+### User intent extraction - which action?
 
 ```
 Input: "remove my smart devices"
@@ -30,3 +30,16 @@ Which action out of  "delete|view|list|create|update" is requested by the input?
 
 Respond with one word.
 ```
+
+### User intent extraction - identification information?
+```
+Input: "remove user with id 34343"
+
+Is any information available to identify the 'user'?
+
+Respond with one word.
+```
+
+
+
+
