@@ -33,47 +33,90 @@ const model = await Optimaxer.loadModel({ model: 'gemma-2b' });
 
 Provides a command-line interface web applications to execute simple natural language commands. The library can understand the commands like 'open Order 1234', 'show me the latest news', 'create a new task', etc. and execute the corresponding actions by navigating the web routes to load the required pages or perform the necessary operations.
 
-``` javascript
-import { CommandRunner } from 'optimaxer/web-edge-commands';
+You should configure the library with the entities, actions, and routes to handle the commands. The library can also validate the commands based on the configured validations before executing the actions.
+
+```typescript
+interface EntityConfig {
+    entity: string;
+    actions: string[];
+    routes: {
+        lookup: (query: string, action: string) => string;
+        [action: string]: (...args: any[]) => string;
+    };
+    validations?: {
+        [action: string]: (query: string) => boolean;
+    };
+    defaultAction?: string;
+}
+```
+
+Below is an example configuration:
+
+```typescript
+let configuration: EntityConfig[] = [
+    { 
+        entity: 'Order',
+        actions: ['view', 'delete', 'edit', 'new'], 
+        routes: {
+            new: () => 'order/new',
+            edit: (id) => `order/edit/${id}`,
+            delete: (id) => `order/delete/${id}`,
+            view: (id) => `order/view/${id}`,
+            lookup: (query, action) => `order/lookup/${query}/next_action/${action}`
+        },
+        defaultAction: 'view',
+        validations: {
+            isValidId: (id) => !isNaN(Number(id)), 
+            isValidQuery: (query) => query.length > 0,
+        },
+    },
+    { 
+        entity: 'News',
+        actions: ['view', 'new'], 
+        routes: {
+            new: () => 'news/new',
+            view: (id) => `news/view/${id}`,
+            lookup: (query, action) => `news/lookup/${query}/next_action/${action}`
+        },
+        defaultAction: 'view',
+    },
+    { 
+        entity: 'Task',
+        actions: ['view', 'delete', 'edit', 'new'], 
+        routes: {
+            new: () => 'task/new',
+            edit: (id) => `task/edit/${id}`,
+            delete: (id) => `task/delete/${id}`,
+            view: (id) => `task/view/${id}`,
+            lookup: (query, action) => `task/lookup/${query}/next_action/${action}`
+        },
+        defaultAction: 'view',
+    },
+];
+
+```
+
+You can then run the commands using the `CommandRunner` class:
+
+```typescript
+import { CommandRunner, EntityConfig } from 'optimaxer/web-edge-commands';
 
 const runner = new CommandRunner();
-runner.configure({
-    [
-        { 
-            entity: 'Order',
-            actions: ['view', 'delete', 'edit', 'new'], 
-            routes: {
-                new: 'order/new',
-                lookup: (query, action) => `order/lookup/${query}/next_action/${action}`
-            },
-        },
-        { 
-            entity: 'News',
-            actions: ['view', 'delete', 'new'], 
-            routes: {
-                new: 'news/new',
-                lookup: (query, action) => `news/lookup/${query}/next_action/${action}`
-            },
-        },
-        { 
-            entity: 'Task',
-            actions: ['view', 'delete', 'edit', 'new'], 
-            routes: {
-                new: 'task/new',
-                lookup: (query, action) => `task/lookup/${query}/next_action/${action}`
-            },
-        },
-    ]
-});
+runner.configure(configuration as EntityConfig[]);
 
 runner.runCommand('show me Order 1234')
-    .then((result) => {
+    .then((result: string) => {
         console.log(result);
     })
-    .catch((error) => {
+    .catch((error: Error) => {
         console.error(error);
     });
 ```
+
+- The library will identify the entity, action, and parameters from the command and execute the corresponding route or action based on the configuration.
+- In the case where user specify the `id` of the entity, the library will validate the `id` based on the configured validations before executing the action. If the `id` is valid, the library will execute the corresponding action route with the `id` parameter.
+- If `id` is not specified the library will see any searchable parameter is provided such as a string and will try to find the entity based on the searchable parameter. In this case, the library will execute the `lookup` route with the searchable parameter and the next action to be executed.
+- On the lookup route, the requested action will be available in the `next_action` parameter. This can be used to determine the next action to be executed after the entity is found.
 
 ### web-edge-translate
 
