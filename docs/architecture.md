@@ -66,8 +66,10 @@ let configuration: EntityConfig[] = [
         },
         defaultAction: 'view',
         validations: {
-            isValidId: (id) => !isNaN(Number(id)), 
-            isValidQuery: (query) => query.length > 0,
+          edit: id => !isNaN(Number(id)),
+          delete: id => !isNaN(Number(id)),
+          view: id => !isNaN(Number(id)),
+          lookup: query => query.length > 0,
         },
     },
     { 
